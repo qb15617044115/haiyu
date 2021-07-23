@@ -18,7 +18,7 @@
 	</insert>
 
 	<select id="getRedEnvelopeRecord" parameterType="com.zhixin.vo.req.RedEnvelopeReqVO" resultType="java.util.Map" >
-		SELECT z.id,send_user_id AS userid,s.user_name AS username,z.state,remaining_money AS remainingmoney,z.total,random_amount AS randomamount,DATE_FORMAT(live_start_time,'%Y-%m-%d %H:%I:%S') AS livestarttime,DATE_FORMAT(z.create_date,'%Y-%m-%d %H:%I:%S') AS createdate
+		SELECT z.id,send_user_id AS userid,s.user_name AS username,z.state,z.money,remaining_money AS remainingmoney,z.total,random_amount AS randomamount,DATE_FORMAT(live_start_time,'%Y-%m-%d %H:%I:%S') AS livestarttime,DATE_FORMAT(z.create_date,'%Y-%m-%d %H:%I:%S') AS createdate
 		FROM zhixin_live_redenvelope AS z LEFT JOIN  sys_user AS s
 		ON z.send_user_id = s.user_id
 		<where>
