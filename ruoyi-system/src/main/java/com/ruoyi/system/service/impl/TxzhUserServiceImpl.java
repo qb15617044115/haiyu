@@ -212,7 +212,7 @@ public class TxzhUserServiceImpl implements ITxzhUserService {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("userId",txzhUser.getId());
                 jsonObject.put("type",500);
-                HttpUtil.createPost("192.168.2.249:8083/liveShielding").body(JSON.toJSONString(jsonObject)).execute().body();
+                HttpUtil.createPost("172.31.8.126:8183/liveShielding").body(JSON.toJSONString(jsonObject)).execute().body();
             }else if(txzhUser.getStatus().equals(2)){
                 TxzhUser byid = txzhUserMapper.getByid(txzhUser.getId());
                 redisTemplate.opsForValue().set(infoKey, JSON.toJSONString(byid));
@@ -221,7 +221,7 @@ public class TxzhUserServiceImpl implements ITxzhUserService {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("userId",txzhUser.getId());
                 jsonObject.put("type",501);
-                HttpUtil.createPost("192.168.2.249:8083/liveShielding").body(JSON.toJSONString(jsonObject)).execute().body();
+                HttpUtil.createPost("172.31.8.126:8183/liveShielding").body(JSON.toJSONString(jsonObject)).execute().body();
             }else{
                 // 修改缓存
                 TxzhUser byid = txzhUserMapper.getByid(txzhUser.getId());

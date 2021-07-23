@@ -180,6 +180,7 @@ public class PrizeServiceImpl implements IPrizeService {
         }
         jsonObject.put("page",prize.getPage().toString());
         jsonObject.put("size",prize.getSize().toString());
+        jsonObject.put("active_id",prize.getActiveId().toString());
         String body = HttpUtil.createPost(liveUrl + "/api/auth/lottery/getprizedlist").body(JSON.toJSONString(jsonObject)).execute().body();
         JSONObject result = JSON.parseObject(body);
         if(!result.get("status").equals(200)){

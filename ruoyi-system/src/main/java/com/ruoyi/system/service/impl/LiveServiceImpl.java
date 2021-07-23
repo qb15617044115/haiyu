@@ -6,9 +6,6 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.google.gson.JsonObject;
-import com.ruoyi.common.constant.LiveConstant;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.StringUtils;
@@ -18,12 +15,10 @@ import com.ruoyi.system.mapper.SysDeptMapper;
 import com.ruoyi.system.mapper.SysUserMapper;
 import com.ruoyi.system.mapper.TxzhUserMapper;
 import com.ruoyi.system.service.ILiveService;
-import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -683,6 +678,8 @@ public class LiveServiceImpl implements ILiveService {
         if(liveVO.getUserId() != null){
             jsonObject.put("user_id",liveVO.getUserId());
         }
+        jsonObject.put("page",liveVO.getPage().toString());
+        jsonObject.put("size",liveVO.getSize().toString());
         String body = HttpUtil.createPost(liveUrl + "/api/auth/live/getsignlist").body(JSON.toJSONString(jsonObject)).execute().body();
         JSONObject result = JSON.parseObject(body);
         if(!result.get("status").equals(200)){
@@ -909,7 +906,7 @@ public class LiveServiceImpl implements ILiveService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("auth_code",authCode);
-        jsonObject.put("room_id",liveVO.getRoomId());
+        jsonObject.put("room_id",liveVO.getRoomId().toString());
         if(StringUtils.isNotBlank(liveVO.getTime())){
             Date parse = sdf.parse(liveVO.getTime());
             jsonObject.put("time",sdf.format(DateUtil.beginOfDay(parse)));

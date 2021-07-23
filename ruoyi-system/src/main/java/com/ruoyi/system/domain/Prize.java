@@ -37,4 +37,6 @@ public class Prize extends BaseDomain {
     private Integer lotteryPower;
     // 主播昵称
     private String liveUserNickname;
+    // 活动id
+    private Long activeId;
 }

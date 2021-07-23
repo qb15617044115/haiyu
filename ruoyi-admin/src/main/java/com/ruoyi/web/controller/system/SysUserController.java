@@ -81,18 +81,18 @@ public class SysUserController extends BaseController
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("auth_code",authCode);
-
         if(!ids.isEmpty()){
             jsonObject.put("user_ids",StringUtils.join(ids,","));
         }
         String body = HttpUtil.createPost(liveUrl + "/api/auth/live/getlivingrooms").body(JSON.toJSONString(jsonObject)).execute().body();
         JSONObject result = JSON.parseObject(body);
         List<LiveUserVO> obj = JSON.parseArray(JSON.toJSONString(result.get("obj")), LiveUserVO.class);
-
         List<String> strings = new ArrayList<>();
-        if(!obj.isEmpty()){
-            for (LiveUserVO liveUserVO : obj) {
-                strings.add(liveUserVO.getUser_id());
+        if(obj != null){
+            if(!obj.isEmpty()){
+                for (LiveUserVO liveUserVO : obj) {
+                    strings.add(liveUserVO.getUser_id());
+                }
             }
         }
         if(!strings.isEmpty()){
