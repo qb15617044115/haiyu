@@ -236,12 +236,19 @@ public class PrizeServiceImpl implements IPrizeService {
 
     @Override
     public AjaxResult getActiveList(Prize prize) {
-        if(prize.getRoomId() == null && prize.getLiveUserId() == null){
+        if(prize.getRoomId() == null && prize.getLiveUserId() == null && StringUtils.isBlank(prize.getLiveUserNickname())){
             return AjaxResult.error("必须写入主播id或者房间id");
         }
+        Map<String,Object> map = new HashMap<>();
+
         List<Long> ids = new ArrayList<>();
         if(StringUtils.isNotBlank(prize.getLiveUserNickname())){
             ids = sysUserMapper.selectByNickname(prize.getLiveUserNickname());
+        }
+        if(ids.isEmpty() && StringUtils.isNotBlank(prize.getLiveUserNickname())){
+            map.put("list",new ArrayList<>());
+            map.put("count",0);
+            return AjaxResult.success(map);
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("auth_code",authCode);
@@ -264,7 +271,6 @@ public class PrizeServiceImpl implements IPrizeService {
             return AjaxResult.error(result.get("msg").toString());
         }
         JSONObject obj = JSON.parseObject(JSON.toJSONString(result.get("obj")));
-        Map<String,Object> map = new HashMap<>();
         List<PrizeVO> list = JSON.parseArray(JSON.toJSONString(obj.get("data")), PrizeVO.class);
         for (PrizeVO datum : list) {
             SysUser sysUser = sysUserMapper.selectUserById(datum.getLiveUserId());

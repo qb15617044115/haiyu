@@ -58,4 +58,6 @@ public class LiveVO extends BaseDomain{
     private Integer type;
     // 查询新 ip 时间
     private String time;
+    // 删除公告时使用
+    private Long id;
 }

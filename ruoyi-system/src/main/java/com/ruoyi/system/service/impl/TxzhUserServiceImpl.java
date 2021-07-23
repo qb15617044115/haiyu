@@ -9,13 +9,11 @@ import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.system.domain.TxzhConfigAll;
 import com.ruoyi.system.domain.TxzhUser;
 import com.ruoyi.system.domain.UserBankCard;
 import com.ruoyi.system.domain.UserIntegralLog;
-import com.ruoyi.system.mapper.SysDeptMapper;
-import com.ruoyi.system.mapper.TxzhUserMapper;
-import com.ruoyi.system.mapper.UserBankCardMapper;
-import com.ruoyi.system.mapper.UserIntegralLogMapper;
+import com.ruoyi.system.mapper.*;
 import com.ruoyi.system.service.ITxzhUserService;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -48,6 +46,8 @@ public class TxzhUserServiceImpl implements ITxzhUserService {
     private StringRedisTemplate redisTemplate;
     @Autowired
     private UserIntegralLogMapper userIntegralLogMapper;
+    @Autowired
+    private TxzhConfigAllMapper txzhConfigAllMapper;
 
     @Override
     public Map<String,Object> findByDeptId(TxzhUser txzhUser) {
@@ -146,8 +146,8 @@ public class TxzhUserServiceImpl implements ITxzhUserService {
             return AjaxResult.error("用户名已存在");
         }
         // 对密码进行加密
-        String password = SecurityUtils.encryptPassword(txzhUser.getPassword());
-        txzhUser.setPassword(password);
+        String password = txzhUser.getPassword();
+        txzhUser.setPassword(SecurityUtils.encryptPassword(password));
         // 生成 id
         String s = RandomUtil.randomNumbers(3);
         txzhUser.setId(Long.parseLong(new Date().getTime() + s));
@@ -225,6 +225,12 @@ public class TxzhUserServiceImpl implements ITxzhUserService {
             }else{
                 // 修改缓存
                 TxzhUser byid = txzhUserMapper.getByid(txzhUser.getId());
+                List<TxzhConfigAll> list = txzhConfigAllMapper.listIntegralConfig();
+                for (TxzhConfigAll txzhConfigAll : list) {
+                    if(byid.getPoint() >= Integer.parseInt(txzhConfigAll.getConfigContent())){
+                        byid.setLevelName(txzhConfigAll.getTitleName());
+                    }
+                }
                 redisTemplate.opsForValue().set(infoKey, JSON.toJSONString(byid));
             }
         }
@@ -239,7 +245,8 @@ public class TxzhUserServiceImpl implements ITxzhUserService {
         }
         if(StringUtils.isNotBlank(txzhUser.getPassword())){
             // 加密
-            txzhUser.setPassword(SecurityUtils.encryptPassword(txzhUser.getPassword()));
+            String password = txzhUser.getPassword();
+            txzhUser.setPassword(SecurityUtils.encryptPassword(password));
         }
         // 进行修改
         txzhUserMapper.updateTxzhUser(txzhUser);

@@ -647,6 +647,7 @@ public class SysUserServiceImpl implements ISysUserService
         sysWalletLog.setLiveUserId(beforeUser.getUserId());
         sysWalletLog.setOperationId(currentUser.getUserId());
         sysWalletLog.setType(user.getType());
+        sysWalletLog.setId(getGenerateId());
         // 添加钱包记录
         sysWalletLogMapper.insert(sysWalletLog);
         return AjaxResult.success();

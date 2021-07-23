@@ -16,6 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="listConfigAll" resultMap="TxzhConfigAllResult">
         SELECT * FROM txzh_config_all
+        WHERE code_number != 'LEVEL'
         ORDER BY create_time DESC
     </select>
 

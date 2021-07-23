@@ -68,4 +68,6 @@ public interface ILiveService {
     AjaxResult getNewIPList(LiveVO liveVO) throws ParseException;
 
     AjaxResult getRoomKData(LiveVO liveVO);
+
+    AjaxResult delRoomNotice(LiveVO liveVO);
 }

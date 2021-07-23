@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ruoyi.system.mapper.SysWalletLogMapper">
 
 	<insert id="insert">
-		INSERT INTO sys_wallet_log(live_user_id,operation_id,before_money,operation_money,after_money,type)
-		VALUES (#{liveUserId},#{operationId},#{beforeMoney},#{operationMoney},#{afterMoney},#{type})
+		INSERT INTO sys_wallet_log(id,live_user_id,operation_id,before_money,operation_money,after_money,type)
+		VALUES (#{id},#{liveUserId},#{operationId},#{beforeMoney},#{operationMoney},#{afterMoney},#{type})
 	</insert>
 
 	<resultMap id="resultMap" type="com.ruoyi.system.domain.SysWalletLog">

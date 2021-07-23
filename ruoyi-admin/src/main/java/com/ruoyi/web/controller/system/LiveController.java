@@ -195,4 +195,10 @@ public class LiveController {
     public AjaxResult getRoomKData(@RequestBody LiveVO liveVO){
         return liveService.getRoomKData(liveVO);
     }
+
+    /** 删除直播间系统公告 */
+    @PostMapping("/delRoomNotice")
+    public AjaxResult delRoomNotice(@RequestBody LiveVO liveVO){
+        return liveService.delRoomNotice(liveVO);
+    }
 }

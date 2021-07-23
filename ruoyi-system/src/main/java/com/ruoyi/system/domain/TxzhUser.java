@@ -104,6 +104,15 @@ public class TxzhUser extends BaseDomain implements Serializable {
 
     private String deptName;
 
+    private String levelName;
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
+    }
 
     public String getDeptName() {
         return deptName;

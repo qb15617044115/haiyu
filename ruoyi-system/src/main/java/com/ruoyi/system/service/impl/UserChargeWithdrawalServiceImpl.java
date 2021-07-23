@@ -2,9 +2,11 @@ package com.ruoyi.system.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSON;
+import com.ruoyi.system.domain.TxzhConfigAll;
 import com.ruoyi.system.domain.TxzhUser;
 import com.ruoyi.system.domain.UserTradingLog;
 import com.ruoyi.system.domain.vo.UserChargeWithdrawal;
+import com.ruoyi.system.mapper.TxzhConfigAllMapper;
 import com.ruoyi.system.mapper.TxzhUserMapper;
 import com.ruoyi.system.mapper.UserChargeWithdrawalMapper;
 import com.ruoyi.system.service.IUserChargeWithdrawalService;
@@ -34,6 +36,8 @@ public class UserChargeWithdrawalServiceImpl implements IUserChargeWithdrawalSer
     private StringRedisTemplate redisTemplate;
     @Autowired
     private IUserTradingLogService userTradingLogService;
+    @Autowired
+    private TxzhConfigAllMapper txzhConfigAllMapper;
     @Override
     public Map<String,Object> getTopUpList(TxzhUser txzhUser) throws Exception {
         Map<String,Object> map = new HashMap<>();
@@ -64,6 +68,13 @@ public class UserChargeWithdrawalServiceImpl implements IUserChargeWithdrawalSer
         txzhUserMapper.updateMoneyById(txzhUser.getId(),template.getMoney());
         // 获取用户信息
         TxzhUser byid = txzhUserMapper.getByid(template.getUserId());
+        // 获取用户等级
+        List<TxzhConfigAll> list = txzhConfigAllMapper.listIntegralConfig();
+        for (TxzhConfigAll txzhConfigAll : list) {
+            if(byid.getPoint() >= Integer.parseInt(txzhConfigAll.getConfigContent())){
+                byid.setLevelName(txzhConfigAll.getTitleName());
+            }
+        }
         // 修改缓存
         redisTemplate.opsForValue().set("user-info:" + byid.getId(), JSON.toJSONString(byid));
         // 添加支付记录
@@ -126,6 +137,12 @@ public class UserChargeWithdrawalServiceImpl implements IUserChargeWithdrawalSer
             txzhUserMapper.updateMoneyAndFreezeMoney(template);
             TxzhUser byid = txzhUserMapper.getByid(template.getUserId());
             // 修改缓存
+            List<TxzhConfigAll> list = txzhConfigAllMapper.listIntegralConfig();
+            for (TxzhConfigAll txzhConfigAll : list) {
+                if(byid.getPoint() >= Integer.parseInt(txzhConfigAll.getConfigContent())){
+                    byid.setLevelName(txzhConfigAll.getTitleName());
+                }
+            }
             redisTemplate.opsForValue().set("user-info:" + byid.getId(), JSON.toJSONString(byid));
             // 添加支付日志
             UserTradingLog userTradingLog = new UserTradingLog();

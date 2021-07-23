@@ -321,12 +321,12 @@ public class LiveServiceImpl implements ILiveService {
             return AjaxResult.error(result.get("msg").toString());
         }
         Map<String,Object> map = new HashMap<>();
-        JSONObject flag = JSON.parseObject(JSON.toJSONString(result.get("obj")));
+        /*JSONObject flag = JSON.parseObject(JSON.toJSONString(result.get("obj")));
         if(flag.isEmpty()){
             map.put("list",new ArrayList<>());
             map.put("count",0);
             return AjaxResult.success(map);
-        }
+        }*/
         JSONArray obj = JSON.parseArray(JSON.toJSONString(result.get("obj")));
         if(obj.size() <= 0){
             map.put("list",new ArrayList<>());
@@ -774,18 +774,12 @@ public class LiveServiceImpl implements ILiveService {
             return AjaxResult.error(result.get("msg").toString());
         }
         Map<String,Object> map = new HashMap<>();
-        JSONObject flag = JSON.parseObject(JSON.toJSONString(result.get("obj")));
-        if(flag.isEmpty()){
-            map.put("list",new ArrayList<>());
-            map.put("count",0);
-            return AjaxResult.success(map);
-        }
-        JSONArray obj = JSON.parseArray(JSON.toJSONString(result.get("obj")));
+        /*JSONArray obj = JSON.parseArray(JSON.toJSONString(result.get("obj")));
         if(obj.size() <= 0){
             map.put("list",new ArrayList<>());
             map.put("count",0);
             return AjaxResult.success(map);
-        }
+        }*/
         List<String> list = JSON.parseArray(JSON.toJSONString(result.get("obj")),String.class);
         List<TxzhUser> user = new ArrayList<>();
         for (String ids : list) {
@@ -962,6 +956,22 @@ public class LiveServiceImpl implements ILiveService {
             jsonObject.put("min","10");
         }
         String body = HttpUtil.createPost(liveUrl + "/api/auth/live/getroomkdata").body(JSON.toJSONString(jsonObject)).execute().body();
+        JSONObject result = JSON.parseObject(body);
+        if(!result.get("status").equals(200)){
+            return AjaxResult.error(result.get("msg").toString());
+        }
+        return AjaxResult.success(result);
+    }
+
+    @Override
+    public AjaxResult delRoomNotice(LiveVO liveVO) {
+        if(liveVO.getId() == null){
+            return AjaxResult.error("公告id不能为空");
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("auth_code",authCode);
+        jsonObject.put("id",liveVO.getId().toString());
+        String body = HttpUtil.createPost(liveUrl + "/api/auth/live/delroomnotice").body(JSON.toJSONString(jsonObject)).execute().body();
         JSONObject result = JSON.parseObject(body);
         if(!result.get("status").equals(200)){
             return AjaxResult.error(result.get("msg").toString());
