@@ -25,4 +25,6 @@ public class ZhixinLiveRedEnvelope {
     private String receiveUserInfo;
 
     private Date createDate;
+
+    private Date liveStartTime;
 }

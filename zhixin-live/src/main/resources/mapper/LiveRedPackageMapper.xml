@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhixin.mapper.LiveRedPackageMapper">
 
 	<select id="getUserMoney" parameterType="java.lang.Long" resultType="com.ruoyi.common.core.domain.entity.SysUser">
 		SELECT user_id AS userid,money FROM sys_user WHERE user_id = ${userid}
 	</select>
-	
+
 	<update id="updateUserMoney" parameterType="com.ruoyi.common.core.domain.entity.SysUser">
 		UPDATE sys_user SET money = #{money} WHERE user_id = ${userId}
 	</update>
-    
+
 	<insert id="insertLiveRedEnvelope" parameterType="ZhixinLiveRedEnvelope">
-		INSERT INTO zhixin_live_redenvelope(id,send_user_id,money,remaining_money,total,random_amount,receive_user_info,create_date)
-		VALUES (${id},#{sendUserId},#{money},#{remainingMoney},${total},#{randomAmount},#{receiveUserInfo},now())
+		INSERT INTO zhixin_live_redenvelope(id,send_user_id,money,remaining_money,total,random_amount,receive_user_info,create_date,live_start_time)
+		VALUES (${id},#{sendUserId},#{money},#{remainingMoney},${total},#{randomAmount},#{receiveUserInfo},now(),#{liveStartTime})
 	</insert>
 
 	<select id="getRedEnvelopeRecord" parameterType="com.zhixin.vo.req.RedEnvelopeReqVO" resultType="java.util.Map" >
-		SELECT z.id,send_user_id AS userid,s.user_name AS username,z.state,remaining_money AS remainingmoney,z.total,random_amount AS randomamount,receive_user_info AS receiveuserinfo,create_date AS createdate
+		SELECT z.id,send_user_id AS userid,s.user_name AS username,z.state,remaining_money AS remainingmoney,z.total,random_amount AS randomamount,DATE_FORMAT(live_start_time,'%Y-%m-%d %H:%I:%S') AS livestarttime,DATE_FORMAT(z.create_date,'%Y-%m-%d %H:%I:%S') AS createdate
 		FROM zhixin_live_redenvelope AS z LEFT JOIN  sys_user AS s
 		ON z.send_user_id = s.user_id
+		<where>
+			<if test="userName != null">
+				s.user_name LIKE CONCAT('%',#{userName},'%')
+			</if>
+		</where>
 		LIMIT ${page},${size}
 	</select>
 
@@ -29,7 +34,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(${id},${liveUserId},${operationId},#{beforeMoney},#{operationMoney},#{afterMoney},${type},now())
 	</insert>
 
-	<select id="getRedEnvelopeRecordCount" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM zhixin_live_redenvelope
+	<select id="getRedEnvelopeRecordCount" parameterType="com.zhixin.vo.req.RedEnvelopeReqVO" resultType="java.lang.Integer" >
+		SELECT COUNT(1) FROM zhixin_live_redenvelope AS z LEFT JOIN  sys_user AS s
+		ON z.send_user_id = s.user_id
+		<where>
+			<if test="userName != null">
+				s.user_name LIKE CONCAT('%',#{userName},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="getRedEnvelopeReceiveRecord" parameterType="com.zhixin.vo.req.RedEnvelopeReqVO" resultType="java.lang.String">
+		SELECT receive_user_info AS receiveuserinfo FROM zhixin_live_redenvelope WHERE id = ${redEnvelopeId}
 	</select>
 </mapper>

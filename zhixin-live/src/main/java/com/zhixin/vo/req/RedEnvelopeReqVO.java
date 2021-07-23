@@ -9,6 +9,10 @@ public class RedEnvelopeReqVO {
 
     //主播id
     private Long userId;
+    //主播名称
+    private String userName;
+    //红包id
+    private Long redEnvelopeId;
     //金额
     private BigDecimal money;
     //最大金额

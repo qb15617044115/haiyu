@@ -8,4 +8,6 @@ public interface LiveRedPackageService {
     AjaxResult sendRedEnvelope(RedEnvelopeReqVO redEnvelopeReqVO);
 
     AjaxResult getRedEnvelopeRecord(RedEnvelopeReqVO redEnvelopeReqVO);
+
+    AjaxResult getRedEnvelopeReceiveRecord(RedEnvelopeReqVO redEnvelopeReqVO);
 }

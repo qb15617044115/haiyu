@@ -21,8 +21,10 @@ public interface LiveRedPackageMapper {
 
     List<Map<String,Object>> getRedEnvelopeRecord(RedEnvelopeReqVO redEnvelopeReqVO);
 
-    int getRedEnvelopeRecordCount();
+    int getRedEnvelopeRecordCount(RedEnvelopeReqVO redEnvelopeReqVO);
 
     int insertLiveWalletLog(SysWalletLog sysWalletLog);
+
+    String getRedEnvelopeReceiveRecord(RedEnvelopeReqVO redEnvelopeReqVO);
 
 }

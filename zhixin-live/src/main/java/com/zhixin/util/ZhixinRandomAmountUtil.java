@@ -21,7 +21,7 @@ public class ZhixinRandomAmountUtil {
         int mi = money.compareTo(minMoney.multiply(new BigDecimal(num)));
         if(mi == -1){
             resultMap.put("state",false);
-            resultMap.put("message","一个红包最低为0.01");
+            resultMap.put("message","最小金额设置过大");
             return resultMap;
         }else if(mi == 0){
             resultMap.put("state",true);

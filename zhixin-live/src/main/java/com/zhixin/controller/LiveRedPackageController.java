@@ -3,16 +3,14 @@ package com.zhixin.controller;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.zhixin.service.LiveRedPackageService;
 import com.zhixin.vo.req.RedEnvelopeReqVO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/live")
+@CrossOrigin
 public class LiveRedPackageController {
 
     @Autowired
@@ -26,5 +24,10 @@ public class LiveRedPackageController {
     @RequestMapping(value = "/getRedEnvelopeRecord",method = RequestMethod.POST)
     public AjaxResult getRedEnvelopeRecord(@RequestBody RedEnvelopeReqVO redEnvelopeReqVO){
         return liveRedPackageService.getRedEnvelopeRecord(redEnvelopeReqVO);
+    }
+
+    @RequestMapping(value = "/getRedEnvelopeReceiveRecord",method = RequestMethod.POST)
+    public AjaxResult getRedEnvelopeReceiveRecord(@RequestBody RedEnvelopeReqVO redEnvelopeReqVO){
+        return liveRedPackageService.getRedEnvelopeReceiveRecord(redEnvelopeReqVO);
     }
 }
