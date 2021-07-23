@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DiscoveryPageManagementMapper">
+
+    <select id="queryconfig" resultType="com.ruoyi.system.domain.DiscoveryPageManagement">
+        select id,menu_number menunumber,menu_name menuname,state from discovery_page_management
+    </select>
+    <select id="querys" resultType="com.ruoyi.system.domain.DiscoveryPageManagement">
+        select  * from discovery_page_management where id=#{id}
+    </select>
+    <select id="queryById" resultType="com.ruoyi.system.domain.DiscoveryPageManagement">
+            select  * from discovery_page_management where id=#{id}
+    </select>
+    <select id="querymoduleChoice" resultType="com.ruoyi.system.domain.DiscoveryPageManagement">
+        select id,
+               menu_number menunumber,
+               menu_name menuname,
+               module_choice modulechoice,
+               menu_type menutype,
+               type_picture typepicture ,
+               type_link typelink,
+               type_wordage typewordage,
+               type_shuffling typeshuffling,
+               state
+        from discovery_page_management
+        where module_choice=#{modulechoice}
+    </select>
+    <update id="updatefound" parameterType="com.ruoyi.system.domain.DiscoveryPageManagement">
+        update discovery_page_management set state=#{state} where id=#{id}
+    </update>
+
+    <update id="bathUpdate">
+        update discovery_page_management set state=#{state} where id=#{id}
+    </update>
+
+
+    <insert id="insertDiscovery" parameterType="com.ruoyi.system.domain.DiscoveryPageManagement">
+        insert into
+            discovery_page_management(
+                                      id,
+                                      menu_number,
+                                      menu_name,
+                                      menu_type,
+                                      type_picture,
+                                      type_link,
+                                      type_wordage,
+                                      type_shuffling,
+                                      module_choice,
+                                      state
+                                      )
+                            values(
+                                   #{id},
+                                   #{menunumber},
+                                   #{menuname},
+                                   #{menutype},
+                                   #{typepicture},
+                                   #{typelink},
+                                   #{typewordage},
+                                   #{typeshuffling},
+                                   #{modulechoice},
+                                   #{state}
+                                   )
+    </insert>
+
+    <update id="updateDiscovery" parameterType="com.ruoyi.system.domain.DiscoveryPageManagement">
+        update discovery_page_management set
+                                             menu_number=#{menunumber},
+                                             menu_name=#{menuname},
+                                             menu_type=#{menutype},
+                                             type_picture=#{typepicture},
+                                             type_link=#{typelink},
+                                             type_wordage=#{typewordage},
+                                             type_shuffling=#{typeshuffling},
+                                             module_choice=#{modulechoice},
+                                             state=#{state}
+        where    id=#{id}
+
+    </update>
+
+    <delete id="deleteDiscovery" parameterType="com.ruoyi.system.domain.DiscoveryPageManagement">
+        delete from discovery_page_management where id=#{id}
+    </delete>
+
+    <select id="queryDiscoveryName" resultType="java.lang.Integer">
+        select count(*) from discovery_page_management where menu_name=#{menuname}
+    </select>
+
+    <select id="queryAllBychoice" resultType="com.ruoyi.system.domain.DiscoveryPageManagement">
+        select id,
+               menu_number menunumber,
+               menu_name menuname,
+               menu_type menutype,
+               type_picture typepicture,
+               type_link typelink,
+               type_wordage typewordage,
+               type_shuffling typeshuffling,
+               module_choice modulechoice,
+               state
+        from  discovery_page_management where module_choice=#{modulechoice}
+    </select>
+
+<!--    <select id="querytupian" resultType="java.lang.String">-->
+<!--        select-->
+<!--            menu_type menutype-->
+<!--        from  discovery_page_management where type_picture=#{typePicture}-->
+<!--    </select>-->
+
+    <select id="querytupian" resultType="java.lang.String">
+        select type_picture typepicture , type_link typelink, type_wordage typewordage,
+               type_shuffling typeshuffling
+        from discovery_page_management
+        where menu_type=#{menutype}
+    </select>
+
+    <select id="querymoduleChoice2" resultType="java.lang.String">
+        select id,
+               menu_number menunumber,
+               menu_name menuname,
+               module_choice modulechoice,
+               menu_type menutype,
+               type_picture typepicture , type_link typelink, type_wordage typewordage, type_shuffling typeshuffling,
+               state
+        from discovery_page_management where menu_type=#{menutype}
+    </select>
+
+    <select id="queryByid" resultType="com.ruoyi.system.domain.DiscoveryPageManagement">
+        select
+            id,
+            menu_number menunumber,
+            menu_name menuname,
+            module_choice modulechoice,
+            menu_type menutype,
+            type_picture typepicture,
+            type_link typelink,
+            type_wordage typewordage,
+            type_shuffling typeshuffling,
+            state
+        from discovery_page_management where id=#{id}
+    </select>
+    <select id="queryByQid" resultType="com.ruoyi.system.domain.DiscoveryPageManagement">
+
+        select
+            id,
+            menu_number menunumber,
+            menu_name menuname,
+            module_choice modulechoice,
+            menu_type menutype,
+            type_picture typepicture,
+            type_link typelink,
+            type_wordage typewordage,
+            type_shuffling typeshuffling,
+            state
+from discovery_page_management  where id=#{id}
+    </select>
+
+
+</mapper>

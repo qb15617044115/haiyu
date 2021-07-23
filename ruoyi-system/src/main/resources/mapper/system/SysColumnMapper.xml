@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysColumnMapper">
+
+    <resultMap id="queryByid" type="com.ruoyi.system.domain.SysColumn">
+        <id     property="id"                              column="id"/>
+        <result property="moduleNumber"                    column="module_number"/>
+        <result property="moduleInitial"                      column="module_initial"/>
+        <result property="moduleName"                      column="module_name"/>
+        <result property="moduleType"                      column="module_type"/>
+        <result property="typeContent"                      column="type_content"/>
+        <result property="sysUserId"                      column="sys_userid"/>
+        <result property="userId"                      column="user_id"/>
+    </resultMap>
+
+
+    <select id="queryList" resultType="com.ruoyi.system.domain.SysColumn">
+        select s.id,
+               s.module_number moduleNumber,
+               s.module_initial moduleInitial,
+               s.module_name moduleName,
+               s.module_type moduleType,
+               s.type_content typeContent,
+               s.sys_userid sysUserId
+        from sys_column s
+                 left join sys_user u on s.sys_userid = u.user_id
+        where s.sys_userid = #{sysUserId}
+    </select>
+
+    <insert id="insertColumn" parameterType="com.ruoyi.system.domain.SysColumn">
+        insert into sys_column   (
+            id                   ,
+            module_number        ,
+            module_name 	     ,
+            module_type		     ,
+            sys_userid 		     ,
+            module_initial       ,
+            type_content         )
+        values (#{id},#{moduleNumber},#{moduleName},#{moduleType},#{sysUserId},#{moduleInitial},#{typeContent})
+    </insert>
+    <!--select type_content typeContent from sys_column where module_type=#{moduleType}
+
+           /* select s.id,
+               s.module_number moduleNumber,
+               s.module_name moduleName,
+               s.module_type moduleType,
+               s.type_content typeContent,
+               s.sys_userid sysUserId
+        from sys_column s
+                 left join sys_user u on s.sys_userid = u.user_id
+         where s.id=#{id}*/
+    -->
+    <select id="getTuPian" resultType="java.lang.String">
+
+        select s.id,
+               s.module_number moduleNumber,
+               s.module_name moduleName,
+               s.module_type moduleType,
+               s.type_content typeContent
+               s.sys_userid sysUserId
+        from sys_column s
+                 left join sys_user u on s.sys_userid = u.user_id
+        where s.sys_userid = #{sysUserId}
+    </select>
+    <select id="queryUpdateByid" resultMap="queryByid">
+
+         select * from sys_column where id=#{id}
+    </select>
+
+    <update id="updateColumn" parameterType="com.ruoyi.system.domain.SysColumn">
+        update sys_column  set
+                               module_number=#{moduleNumber},
+                               module_name=#{moduleName},
+                               module_type=#{moduleType},
+                               sys_userid=#{sysUserId},
+                               module_initial=#{moduleInitial},
+                               type_content=#{typeContent}
+                         where id=#{id}
+    </update>
+
+    <delete id="deleteColumn" parameterType="com.ruoyi.system.domain.SysColumn">
+        delete from sys_column  where id=#{id}
+    </delete>
+
+</mapper>

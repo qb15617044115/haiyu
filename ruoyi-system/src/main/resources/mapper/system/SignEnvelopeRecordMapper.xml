@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SignEnvelopeRecordMapper">
+
+
+    <select id="querySignEnvelopeRecord" resultMap="SignEnvelopeRecord">
+        select h.*,
+               u.username username,
+               u.nickname nickname
+        from txzh_thumbup_hongbao h
+                 left join txzh_user u on h.user_id = u.id
+    </select>
+
+    <resultMap type="com.ruoyi.system.domain.SignEnvelopeRecord" id="SignEnvelopeRecord">
+        <id     property="id"                  column="id"/>
+        <result property="userId"          column="user_id"/>
+        <result property="total"          column="total"/>
+        <result property="theNumber"          column="the_number"/>
+        <result property="createTime"          column="create_time"/>
+    </resultMap>
+
+
+</mapper>

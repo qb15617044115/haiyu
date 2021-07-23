@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.UserBankCardMapper">
+
+	<insert id="batchInsertBankCard" parameterType="list">
+		INSERT INTO user_bank_card (id,bank_card,id_card,bank_user_id,bank_user_name,create_by,bank_state)	VALUES
+		<foreach collection="list" item="item" separator=",">
+		(#{item.id},#{item.bankCard},#{item.idCard},#{item.bankUserId},#{item.bankUserName},#{item.createBy},1)
+		</foreach>
+	</insert>
+</mapper>

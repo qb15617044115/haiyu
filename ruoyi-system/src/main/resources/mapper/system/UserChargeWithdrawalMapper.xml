@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.UserChargeWithdrawalMapper">
+
+	<resultMap id="listChargeWithdrawal" type="com.ruoyi.system.domain.vo.UserChargeWithdrawal">
+		<id property="id" column="id"/>
+		<result property="userId" column="user_id"/>
+		<result property="money" column="money"/>
+		<result property="type" column="type"/>
+		<result property="state" column="state"/>
+		<result property="auditTime" column="audit_time"/>
+		<result property="createTime" column="create_time"/>
+		<result property="bankId" column="bank_id"/>
+		<result property="complete" column="complete"/>
+	</resultMap>
+
+	<select id="listByUserId" resultMap="listChargeWithdrawal">
+		SELECT * FROM user_charge_withdrawal WHERE user_id = #{txzhUser.id} AND type = #{type}
+		 <if test="txzhUser.startDate != null">
+		 AND create_time >= #{txzhUser.startDate}
+		 </if>
+		 <if test="txzhUser.endDate != null">
+		 AND create_time &lt;= #{txzhUser.endDate}
+		 </if>
+		 ORDER BY create_time DESC LIMIT #{txzhUser.startNo},#{txzhUser.size}
+	</select>
+
+	<update id="updateTopUpStateById">
+		UPDATE user_charge_withdrawal SET state = 2,audit_time = now() WHERE id = #{id}
+	</update>
+
+	<update id="updateWithdrawalById">
+		UPDATE user_charge_withdrawal
+		<if test="state != 3">
+			SET state = #{state},audit_time = now() WHERE id = #{id}
+		</if>
+		<if test="state == 3">
+			SET state = #{state},audit_time = now(), complete = 1 WHERE id = #{id}
+		</if>
+	</update>
+
+	<update id="updateCompleteById">
+		UPDATE user_charge_withdrawal SET complete = 1,audit_time = now() WHERE id = #{id}
+	</update>
+
+	<select id="selectById" resultMap="listChargeWithdrawal">
+		SELECT * FROM user_charge_withdrawal WHERE id = #{id}
+	</select>
+
+	<select id="countByUserId" resultType="int">
+		SELECT COUNT(*) FROM user_charge_withdrawal WHERE user_id = #{txzhUser.id} AND type = #{type}
+		<if test="txzhUser.startDate != null">
+			AND create_time >= #{txzhUser.startDate}
+		</if>
+		<if test="txzhUser.endDate != null">
+			AND create_time &lt;= #{txzhUser.endDate}
+		</if>
+	</select>
+
+	<select id="selectBankCardByBankId" resultType="java.lang.String">
+		SELECT bank_card FROM user_bank_card WHERE id = #{bankId}
+	</select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SignManagementMapper">
+
+
+    <insert id="InsertMoneyDays">
+        insert into ry_signmanagement (
+                                       Daily_check_in_minimum_amount,
+                                       Maximum_number_of_daily_checkins,
+                                       Consecutive_days,
+                                       Continuous_signin_amount,
+                                       state
+                                       )
+        values (#{dailycheckinminimumamount},#{maximumnumberofdailycheckins},#{consecutivedays},#{continuoussigninamount},#{state})
+    </insert>
+
+    <update id="UpdateSwitch" parameterType="com.ruoyi.system.domain.SignManagement">
+        update ry_signmanagement set  state=#{state} where id=#{id}
+    </update>
+
+    <update id="updateparameter" parameterType="com.ruoyi.system.domain.SignManagement">
+        update  ry_signmanagement set Daily_check_in_minimum_amount=#{dailycheckinminimumamount},
+                                      Maximum_number_of_daily_checkins=#{maximumnumberofdailycheckins},
+                                      Consecutive_days=#{consecutivedays},
+                                      Continuous_signin_amount=#{continuoussigninamount}
+                                      <if test="state != null">,state=#{state}</if>
+                                where id=#{id}
+    </update>
+
+    <select id="querygetAll" resultType="com.ruoyi.system.domain.SignManagement">
+        select id,
+               Daily_check_in_minimum_amount dailycheckinminimumamount,
+               Maximum_number_of_daily_checkins maximumnumberofdailycheckins,
+               Consecutive_days consecutivedays,
+               Continuous_signin_amount continuoussigninamount,
+               state
+        from ry_signmanagement
+    </select>
+
+
+
+</mapper>

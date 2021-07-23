@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TxzhConfigAllMapper">
+
+
+    <resultMap type="com.ruoyi.system.domain.TxzhConfigAll" id="TxzhConfigAllResult">
+        <id     property="id"                  column="id"/>
+        <result property="codeNumber"          column="code_number"/>
+        <result property="titleName"          column="title_name"/>
+        <result property="configContent"          column="config_content"/>
+        <result property="createTime"          column="create_time"/>
+        <result property="status"          column="status"/>
+    </resultMap>
+
+    <select id="listConfigAll" resultMap="TxzhConfigAllResult">
+        SELECT * FROM txzh_config_all
+        ORDER BY create_time DESC
+    </select>
+
+    <insert id="addConfigAll">
+        INSERT INTO txzh_config_all(code_number,title_name
+        <if test="configContent != null and configContent != ''">
+            ,config_content
+        </if>)
+        VALUES (#{codeNumber},#{titleName}
+        <if test="configContent != null and configContent != ''">
+            ,#{configContent}
+        </if>)
+    </insert>
+
+    <update id="updateConfigAll">
+        UPDATE txzh_config_all
+        <set>
+            <if test="titleName != null and titleName != ''">
+                title_name = #{titleName},
+            </if>
+            <if test="configContent != null and configContent != ''">
+                config_content = #{configContent},
+            </if>
+            create_time = #{createTime}
+        </set>
+        WHERE code_number = #{codeNumber}
+    </update>
+
+    <select id="listCheckUpdate" resultMap="TxzhConfigAllResult">
+        SELECT * FROM txzh_config_all WHERE code_number = 'JCGX'
+        <where>
+            <if test="startDate != null">
+                create_time >= #{startDate}
+            </if>
+            <if test="endDate != null">
+                create_time &lt;= #{endDate}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+        LIMIT #{startNo},#{size}
+    </select>
+
+    <insert id="addCheckUpdate">
+        INSERT INTO txzh_config_all(code_number,title_name
+        <if test="configContent != null and configContent != ''">
+            ,config_content
+        </if>)
+        VALUES ('JCGX',#{titleName}
+        <if test="configContent != null and configContent != ''">
+            ,#{configContent}
+        </if>)
+    </insert>
+
+    <delete id="deleteConfigAll">
+        DELETE FROM txzh_config_all WHERE id = #{id}
+    </delete>
+
+    <select id="selectCountByCodeNumber" resultType="int">
+        SELECT COUNT(*) FROM txzh_config_all WHERE code_number = #{codeNumber}
+    </select>
+
+    <select id="getRTK" resultMap="TxzhConfigAllResult">
+        SELECT * FROM txzh_config_all WHERE code_number = "RTK"
+    </select>
+
+    <update id="updateRTKStatus">
+        UPDATE txzh_config_all SET status = #{status} WHERE code_number = "RTK"
+    </update>
+
+    <select id="listIntegralConfig" resultMap="TxzhConfigAllResult">
+        SELECT * FROM txzh_config_all WHERE code_number = 'LEVEL' ORDER BY eq
+    </select>
+
+    <update id="batchUpdateLevel">
+        UPDATE txzh_config_all SET config_content = #{configContent} WHERE id = #{id} AND code_number = 'LEVEL'
+    </update>
+</mapper>

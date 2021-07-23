@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.UserTradingLogServiceMapper">
+
+	<resultMap id="listUserTradingLog" type="com.ruoyi.system.domain.UserTradingLog">
+		<id property="id" column="id"/>
+		<result property="userId" column="user_id"/>
+		<result property="tradingType" column="trading_type"/>
+		<result property="tradingSource" column="trading_source"/>
+		<result property="tradingAmount" column="trading_amount"/>
+		<result property="tradingBeforeMoney" column="trading_before_money"/>
+		<result property="tradingAfterMoney" column="trading_after_money"/>
+		<result property="tradingTime" column="trading_time"/>
+	</resultMap>
+
+	<select id="selectByUserId" resultMap="listUserTradingLog">
+		SELECT * FROM user_trading_log WHERE user_id = #{id}
+		<if test="startDate != null">
+		AND trading_time >= #{startDate}
+		</if>
+		<if test="endDate != null">
+		AND trading_time &lt;= #{endDate}
+		</if>
+		LIMIT #{startNo},#{size}
+	</select>
+
+	<select id="selectCountByUserId" resultType="int">
+		SELECT COUNT(*) FROM user_trading_log WHERE user_id = #{id}
+		<if test="startDate != null">
+			AND trading_time >= #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND trading_time &lt;= #{endDate}
+		</if>
+	</select>
+
+	<select id="selectTotalByUserId" resultType="java.math.BigDecimal">
+		SELECT SUM(trading_amount) FROM user_trading_log WHERE user_id = #{txzhUser.id} AND trading_type = #{type}
+	</select>
+	<insert id="insertTradingLog">
+		INSERT INTO user_trading_log(id,user_id,trading_type,trading_source,trading_amount,trading_before_money,trading_after_money,trading_time)
+		VALUES(#{id},#{userId},#{tradingType},#{tradingSource},#{tradingAmount},#{tradingBeforeMoney},#{tradingAfterMoney},#{tradingTime})
+
+	</insert>
+</mapper>

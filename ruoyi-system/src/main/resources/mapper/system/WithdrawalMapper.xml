@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WithdrawalMapper">
+
+    <update id="updatewithdrawal" parameterType="com.ruoyi.system.domain.Withdrawal">
+        update  user_withdrawal_rules set numbers=#{numbers},min_money=#{minMoney},max_money=#{maxMoney} where  id=#{id}
+    </update>
+
+    <select id="queryWithdrawal" resultType="com.ruoyi.system.domain.Withdrawal">
+        select id, numbers,min_money as minmoney, max_money as  maxmoney from user_withdrawal_rules  where id=#{id}
+    </select>
+
+</mapper>
