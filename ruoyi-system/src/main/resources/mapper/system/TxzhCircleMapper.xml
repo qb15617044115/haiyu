@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.TxzhCircleMapper">
 
 
     <update id="deleteCircle" parameterType="com.ruoyi.system.domain.TxzhCircle">
-            delete       txzh_circle,
+        delete       txzh_circle,
                          txzh_circle_leave_comments
             from         txzh_circle
             left join    txzh_circle_leave_comments on txzh_circle.id = txzh_circle_leave_comments.circle_id
@@ -64,6 +64,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                    video video,
                    hidden_content hiddenContent
         from txzh_circle
-                where id=#{id}
+        where id=#{id}
     </select>
 </mapper>

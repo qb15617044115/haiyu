@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.DiscoveryPageManagementMapper">
 
     <select id="queryconfig" resultType="com.ruoyi.system.domain.DiscoveryPageManagement">
@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select  * from discovery_page_management where id=#{id}
     </select>
     <select id="queryById" resultType="com.ruoyi.system.domain.DiscoveryPageManagement">
-            select  * from discovery_page_management where id=#{id}
+        select  * from discovery_page_management where id=#{id}
     </select>
     <select id="querymoduleChoice" resultType="com.ruoyi.system.domain.DiscoveryPageManagement">
         select id,
@@ -39,29 +39,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertDiscovery" parameterType="com.ruoyi.system.domain.DiscoveryPageManagement">
         insert into
             discovery_page_management(
-                                      id,
-                                      menu_number,
-                                      menu_name,
-                                      menu_type,
-                                      type_picture,
-                                      type_link,
-                                      type_wordage,
-                                      type_shuffling,
-                                      module_choice,
-                                      state
-                                      )
-                            values(
-                                   #{id},
-                                   #{menunumber},
-                                   #{menuname},
-                                   #{menutype},
-                                   #{typepicture},
-                                   #{typelink},
-                                   #{typewordage},
-                                   #{typeshuffling},
-                                   #{modulechoice},
-                                   #{state}
-                                   )
+            id,
+            menu_number,
+            menu_name,
+            menu_type,
+            type_picture,
+            type_link,
+            type_wordage,
+            type_shuffling,
+            module_choice,
+            state
+        )
+        values(
+                  #{id},
+                  #{menunumber},
+                  #{menuname},
+                  #{menutype},
+                  #{typepicture},
+                  #{typelink},
+                  #{typewordage},
+                  #{typeshuffling},
+                  #{modulechoice},
+                  #{state}
+              )
     </insert>
 
     <update id="updateDiscovery" parameterType="com.ruoyi.system.domain.DiscoveryPageManagement">
@@ -101,11 +101,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from  discovery_page_management where module_choice=#{modulechoice}
     </select>
 
-<!--    <select id="querytupian" resultType="java.lang.String">-->
-<!--        select-->
-<!--            menu_type menutype-->
-<!--        from  discovery_page_management where type_picture=#{typePicture}-->
-<!--    </select>-->
+    <!--    <select id="querytupian" resultType="java.lang.String">-->
+    <!--        select-->
+    <!--            menu_type menutype-->
+    <!--        from  discovery_page_management where type_picture=#{typePicture}-->
+    <!--    </select>-->
 
     <select id="querytupian" resultType="java.lang.String">
         select type_picture typepicture , type_link typelink, type_wordage typewordage,
@@ -152,7 +152,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             type_wordage typewordage,
             type_shuffling typeshuffling,
             state
-from discovery_page_management  where id=#{id}
+        from discovery_page_management  where id=#{id}
     </select>
 
 

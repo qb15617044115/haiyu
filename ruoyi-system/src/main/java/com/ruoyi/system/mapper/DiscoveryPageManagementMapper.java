@@ -11,13 +11,13 @@ public interface DiscoveryPageManagementMapper {
 
     void bathUpdate(DiscoveryPageManagement discoveryPageManagement);
 
-     List<DiscoveryPageManagement> queryconfig(DiscoveryPageManagement discoveryPageManagement,@Param("id") Integer id);
+    List<DiscoveryPageManagement> queryconfig(DiscoveryPageManagement discoveryPageManagement,@Param("id") Integer id);
 
-     void updatefound(@Param("id") Integer id,@Param("state") Integer state);
+    void updatefound(@Param("id") Integer id,@Param("state") Integer state);
 
-     List<DiscoveryPageManagement> querys(@Param("id") Integer id);
+    List<DiscoveryPageManagement> querys(@Param("id") Integer id);
 
-     List<DiscoveryPageManagement> queryById(@Param("id") Integer id);
+    List<DiscoveryPageManagement> queryById(@Param("id") Integer id);
 
     List<DiscoveryPageManagement> querymoduleChoice(DiscoveryPageManagement discoveryPageManagement);
 

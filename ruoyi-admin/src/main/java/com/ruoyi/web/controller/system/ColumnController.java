@@ -20,18 +20,18 @@ public class ColumnController {
     @PostMapping("/index/querySysColumn")
     public AjaxResult querySysColumn(@RequestBody SysColumn sysColumn){
 
-               System.err.println("测试直播状态栏列表:"+sysColumn);
-               if (sysColumn.getSysUserId()!=null){
-               List<SysColumn> gets=iSysColumnService.queryList(sysColumn);
-               System.err.println("測試"+gets);
-                return AjaxResult.success(gets);
-            }
+        System.err.println("测试直播状态栏列表:"+sysColumn);
+        if (sysColumn.getSysUserId()!=null){
+            List<SysColumn> gets=iSysColumnService.queryList(sysColumn);
+            System.err.println("測試"+gets);
+            return AjaxResult.success(gets);
+        }
         return AjaxResult.success();
     }
 
     @PostMapping("/index/insertColumn")
     public AjaxResult insertColumn(@RequestBody SysColumn sysColumn){
-            System.err.println("测试增加栏目"+sysColumn.toString());
+        System.err.println("测试增加栏目"+sysColumn.toString());
         try{
 
             iSysColumnService.insertColumn(sysColumn);
@@ -43,29 +43,41 @@ public class ColumnController {
             e.printStackTrace();
             return AjaxResult.error();
         }
-            }
+    }
 
-            @PostMapping("/index/updateColumn")
-            public AjaxResult updateColumn(@RequestBody SysColumn sysColumn){
+    @PostMapping("/index/updateColumn")
+    public AjaxResult updateColumn(@RequestBody SysColumn sysColumn){
 
-                System.err.println("测试修改栏目"+sysColumn.toString());
-                try{
-                    iSysColumnService.updateColumn(sysColumn);
-                    System.err.println("修改成功");
-                    List<SysColumn> neirong=iSysColumnService.queryUpdateByid(sysColumn.getId());
-                    return AjaxResult.success(neirong);
-                }catch(Exception e){
-                    e.printStackTrace();
-                    return AjaxResult.error();
-                }
-            }
+        System.err.println("测试修改栏目"+sysColumn.toString());
+        try{
+            iSysColumnService.updateColumn(sysColumn);
+            System.err.println("修改成功");
+            List<SysColumn> neirong=iSysColumnService.queryUpdateByid(sysColumn.getId());
+            return AjaxResult.success(neirong);
+        }catch(Exception e){
+            e.printStackTrace();
+            return AjaxResult.error();
+        }
+    }
 
-            @PostMapping("/index/deleteColumn")
-            public AjaxResult deleteColumn(@RequestBody SysColumn sysColumn){
-                    System.err.println("测试直播栏目删除"+sysColumn.getId());
-                    iSysColumnService.deleteColumn(sysColumn);
-                    System.err.println("删除成功");
-                    return AjaxResult.success();
-            }
+    @PostMapping("/index/deleteColumn")
+    public AjaxResult deleteColumn(@RequestBody SysColumn sysColumn){
+        System.err.println("测试直播栏目删除"+sysColumn.getId());
+        iSysColumnService.deleteColumn(sysColumn);
+        System.err.println("删除成功");
+        return AjaxResult.success();
+    }
 
+    @PostMapping("/index/getByIDD")
+    public AjaxResult getByIDD(@RequestBody SysColumn sysColumn){
+
+        System.err.println("测试查询ID: "+sysColumn.getId());
+        try{
+            System.err.println("测试查询一条数据");
+            return  AjaxResult.success(iSysColumnService.queryUpdateByid(sysColumn.getId()));
+        }catch(Exception e){
+            e.printStackTrace();
+            return AjaxResult.error();
+        }
+    }
 }

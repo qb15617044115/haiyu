@@ -19,8 +19,8 @@ public class DiscoveryPageManagementController {
     public AjaxResult getAllDiscoveryPageManagement(@RequestBody DiscoveryPageManagement discoveryPageManagement){
         System.err.println("测试发现页上:"+discoveryPageManagement.toString());
         try{
-                List<DiscoveryPageManagement> gets=iDiscoveryPageManagementService.querymoduleChoice(discoveryPageManagement);
-                return AjaxResult.success(gets);
+            List<DiscoveryPageManagement> gets=iDiscoveryPageManagementService.querymoduleChoice(discoveryPageManagement);
+            return AjaxResult.success(gets);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -34,14 +34,14 @@ public class DiscoveryPageManagementController {
     @PostMapping("/index/insertDiscover")
     private AjaxResult insertDiscover(@RequestBody DiscoveryPageManagement discoveryPageManagement){
 
-            System.err.println("测试新增："+discoveryPageManagement.toString());
-            int names = iDiscoveryPageManagementService.queryDiscoveryName(discoveryPageManagement.getMenuname());
-            if (names > 0) {
-                System.err.println("新增失败，已重复");
-                return AjaxResult.error("名称重复,添加失败");
-            }
-                System.err.println("新增成功");
-                return AjaxResult.success(iDiscoveryPageManagementService.insertDiscovery(discoveryPageManagement));
+        System.err.println("测试新增："+discoveryPageManagement.toString());
+        int names = iDiscoveryPageManagementService.queryDiscoveryName(discoveryPageManagement.getMenuname());
+        if (names > 0) {
+            System.err.println("新增失败，已重复");
+            return AjaxResult.error("名称重复,添加失败");
+        }
+        System.err.println("新增成功");
+        return AjaxResult.success(iDiscoveryPageManagementService.insertDiscovery(discoveryPageManagement));
     }
 
     @PostMapping("/index/deleteDiscover")
@@ -55,19 +55,19 @@ public class DiscoveryPageManagementController {
     @PostMapping("/index/updateDiscovers")
     public  AjaxResult  updateDiscovers(@RequestBody DiscoveryPageManagement discoveryPageManagement){
 
-            System.err.println("测试修改:"+discoveryPageManagement.toString());
-            int names = iDiscoveryPageManagementService.queryDiscoveryName(discoveryPageManagement.getMenuname());
-            if (names > 0) {
-                System.err.println("修改失败，已重复");
-                return AjaxResult.error("名称重复,修改失败");
-            }
-            try{
-                iDiscoveryPageManagementService.updateDiscovery(discoveryPageManagement);
-                System.err.println("修改成功");
-            }catch(Exception e){
-                System.err.println("修改失败");
-                e.printStackTrace();
-            }
+        System.err.println("测试修改:"+discoveryPageManagement.toString());
+        int names = iDiscoveryPageManagementService.queryDiscoveryName(discoveryPageManagement.getMenuname());
+        if (names > 0) {
+            System.err.println("修改失败，已重复");
+            return AjaxResult.error("名称重复,修改失败");
+        }
+        try{
+            iDiscoveryPageManagementService.updateDiscovery(discoveryPageManagement);
+            System.err.println("修改成功");
+        }catch(Exception e){
+            System.err.println("修改失败");
+            e.printStackTrace();
+        }
         return AjaxResult.success(iDiscoveryPageManagementService.queryByQid(discoveryPageManagement.getId()));
     }
 }

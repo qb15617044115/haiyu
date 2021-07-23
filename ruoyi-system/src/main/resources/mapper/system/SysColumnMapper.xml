@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.SysColumnMapper">
 
     <resultMap id="queryByid" type="com.ruoyi.system.domain.SysColumn">
@@ -59,14 +59,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                s.module_name moduleName,
                s.module_type moduleType,
                s.type_content typeContent
-               s.sys_userid sysUserId
+            s.sys_userid sysUserId
         from sys_column s
                  left join sys_user u on s.sys_userid = u.user_id
         where s.sys_userid = #{sysUserId}
     </select>
     <select id="queryUpdateByid" resultMap="queryByid">
-
-         select * from sys_column where id=#{id}
+        select * from sys_column where id=#{id}
     </select>
 
     <update id="updateColumn" parameterType="com.ruoyi.system.domain.SysColumn">
@@ -77,7 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                                sys_userid=#{sysUserId},
                                module_initial=#{moduleInitial},
                                type_content=#{typeContent}
-                         where id=#{id}
+        where id=#{id}
     </update>
 
     <delete id="deleteColumn" parameterType="com.ruoyi.system.domain.SysColumn">
