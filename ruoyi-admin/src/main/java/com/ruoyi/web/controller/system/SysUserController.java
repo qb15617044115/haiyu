@@ -244,6 +244,7 @@ public class SysUserController extends BaseController
         user.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(userService.updateUserStatus(user));
     }
+    @PreAuthorize("@ss.hasPermi('system:user:topup')")
     @PostMapping("/updateUserMoney")
     public AjaxResult updateUserMoney(@RequestBody SysUser user){
         LoginUser currentUser = tokenService.getLoginUser(ServletUtils.getRequest());

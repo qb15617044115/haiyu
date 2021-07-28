@@ -146,6 +146,7 @@ public class UserChargeWithdrawalServiceImpl implements IUserChargeWithdrawalSer
             redisTemplate.opsForValue().set("user-info:" + byid.getId(), JSON.toJSONString(byid));
             // 添加支付日志
             UserTradingLog userTradingLog = new UserTradingLog();
+            userTradingLog.setId(getGenerateId());
             userTradingLog.setUserId(byid.getId());
             userTradingLog.setTradingAmount(template.getMoney());
             userTradingLog.setTradingTime(new Date());
@@ -185,5 +186,11 @@ public class UserChargeWithdrawalServiceImpl implements IUserChargeWithdrawalSer
         if(updateCount < 1){
             throw new Exception("提交失败");
         }
+    }
+
+    public static synchronized long getGenerateId(){
+        int random = (int) ((Math.random() * 9 + 1) * 100);
+        String itm = System.currentTimeMillis() + String.valueOf(random);
+        return Long.valueOf(itm);
     }
 }

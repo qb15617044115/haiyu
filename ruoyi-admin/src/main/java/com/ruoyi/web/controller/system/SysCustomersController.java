@@ -18,13 +18,14 @@ import com.ruoyi.web.controller.customer.Constant;
 import com.ruoyi.web.controller.customer.MessageTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.*;
 
 @RestController
-    @RequestMapping("/system/customers")
+@RequestMapping("/system/customers")
 public class SysCustomersController {
     @Autowired
     private ITxzhUserService txzhUserService;
@@ -44,6 +45,7 @@ public class SysCustomersController {
         return AjaxResult.success(txzhUserService.findByDeptId(txzhUser));
     }
 
+    @PreAuthorize("@ss.hasPermi('system:live:permission')")
     @PostMapping("/addUserLivePermission")
     public AjaxResult addUserLivePermission(@RequestBody SysUser user) throws IOException {
         return userService.addUserLivePermission(user);

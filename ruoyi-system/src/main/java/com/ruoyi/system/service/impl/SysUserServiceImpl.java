@@ -520,6 +520,9 @@ public class SysUserServiceImpl implements ISysUserService
         if (openLiveVO.getUserId() == null){
             return AjaxResult.error("用户id不能为空");
         }
+        if(!openLiveVO.getUserId().equals(user.getUserId().toString())){
+            return AjaxResult.error("只能对自己进行操作!");
+        }
         SysUser sysUser = userMapper.selectUserById(user.getUserId());
         if(sysUser == null){
             return AjaxResult.error("用户不存在");
@@ -580,11 +583,11 @@ public class SysUserServiceImpl implements ISysUserService
     @Override
     public AjaxResult closeLive(CloseLiveVO closeLiveVO, SysUser user) {
         // 判断 userid 是否为空
-        if(null == closeLiveVO.getLiveUserId()){
-            return AjaxResult.error();
+        if(!closeLiveVO.getLiveUserId().toString().equals(user.getUserId().toString())){
+            return AjaxResult.error("只能对自己进行操作!");
         }
         // 查询出用户 id 对应的
-        SysUser sysUser = userMapper.selectUserById(closeLiveVO.getLiveUserId());
+        SysUser sysUser = userMapper.selectUserById(user.getUserId());
         System.out.println(sysUser.toString());
         if(StringUtils.isBlank(sysUser.getAuthCode())){
             return AjaxResult.error("当前未拥有直播权限");
@@ -595,7 +598,7 @@ public class SysUserServiceImpl implements ISysUserService
         }else{
             jsonObject.put("room_id",closeLiveVO.getRoomId().toString());
         }
-        jsonObject.put("live_user_id",closeLiveVO.getLiveUserId().toString());
+        jsonObject.put("live_user_id",sysUser.getUserId().toString());
         jsonObject.put("user_auth_code",sysUser.getAuthCode().toCharArray());
         jsonObject.put("auth_code",authCode);
         String body = HttpUtil.createPost(liveUserUrl + "/api/auth/live/xcloselive").body(JSON.toJSONString(jsonObject)).execute().body();

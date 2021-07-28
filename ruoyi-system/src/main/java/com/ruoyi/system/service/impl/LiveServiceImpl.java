@@ -621,7 +621,7 @@ public class LiveServiceImpl implements ILiveService {
                 sheetRow.createCell(0).setCellValue(logsResult.get(i).getUserId());
                 TxzhUser txzhUser = txzhUserMapper.getByid(Long.parseLong(logsResult.get(i).getUserId()));
                 if(txzhUser != null){
-                    sheetRow.createCell(1).setCellValue(logsResult.get(i).getUserId());
+                    sheetRow.createCell(1).setCellValue(logsResult.get(i).getUserNickname());
                     sheetRow.createCell(2).setCellValue(sysDeptMapper.selectDeptById((long) txzhUser.getDeptId()).getDeptName());
                 }else{
                     sheetRow.createCell(1).setCellValue("--");

@@ -1,11 +1,14 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.system.mapper.SysNoticeUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.domain.SysNotice;
 import com.ruoyi.system.mapper.SysNoticeMapper;
 import com.ruoyi.system.service.ISysNoticeService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 公告 服务层实现
@@ -17,6 +20,8 @@ public class SysNoticeServiceImpl implements ISysNoticeService
 {
     @Autowired
     private SysNoticeMapper noticeMapper;
+    @Autowired
+    private SysNoticeUserMapper sysNoticeUserMapper;
 
     /**
      * 查询公告信息
@@ -85,8 +90,10 @@ public class SysNoticeServiceImpl implements ISysNoticeService
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteNoticeByIds(Long[] noticeIds)
     {
+        sysNoticeUserMapper.deleteRelationByIds(noticeIds);
         return noticeMapper.deleteNoticeByIds(noticeIds);
     }
 }

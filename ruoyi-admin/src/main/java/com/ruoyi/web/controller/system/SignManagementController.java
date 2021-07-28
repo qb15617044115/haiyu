@@ -21,6 +21,10 @@ public class SignManagementController {
     public AjaxResult AddSignManagement(@RequestBody SignManagement signManagement){
         signManagement.setId(1);
         System.err.println("测试签到前:"+ signManagement.toString());
+        if (signManagement.getMaximumnumberofdailycheckins() <= signManagement.getDailycheckinminimumamount()){
+            System.err.println("最大值不能小于等于最小值");
+            return AjaxResult.error("最大值不能小于最小值");
+        }
         try {
             iSignManagementService.updateparameter(signManagement);
         }catch (Exception e){

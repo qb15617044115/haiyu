@@ -215,6 +215,12 @@ public class TxzhUserServiceImpl implements ITxzhUserService {
                 HttpUtil.createPost("172.31.8.126:8183/liveShielding").body(JSON.toJSONString(jsonObject)).execute().body();
             }else if(txzhUser.getStatus().equals(2)){
                 TxzhUser byid = txzhUserMapper.getByid(txzhUser.getId());
+                List<TxzhConfigAll> list = txzhConfigAllMapper.listIntegralConfig();
+                for (TxzhConfigAll txzhConfigAll : list) {
+                    if(byid.getPoint() >= Integer.parseInt(txzhConfigAll.getConfigContent())){
+                        byid.setLevelName(txzhConfigAll.getTitleName());
+                    }
+                }
                 redisTemplate.opsForValue().set(infoKey, JSON.toJSONString(byid));
                 // 发送客户端消息
                 System.err.println("用户 : " + txzhUser.getId() + "已被禁用直播功能");

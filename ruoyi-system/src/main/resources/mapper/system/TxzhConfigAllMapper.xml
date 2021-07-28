@@ -91,6 +91,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <update id="batchUpdateLevel">
-        UPDATE txzh_config_all SET config_content = #{configContent} WHERE id = #{id} AND code_number = 'LEVEL'
+        UPDATE txzh_config_all SET config_content = #{configContent} WHERE id = #{id} AND code_number = 'LEVEL' ORDER BY config_content
     </update>
 </mapper>
