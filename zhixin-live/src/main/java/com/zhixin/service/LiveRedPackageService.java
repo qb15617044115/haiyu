@@ -5,7 +5,7 @@ import com.zhixin.vo.req.RedEnvelopeReqVO;
 
 public interface LiveRedPackageService {
 
-    AjaxResult sendRedEnvelope(RedEnvelopeReqVO redEnvelopeReqVO);
+    AjaxResult sendRedEnvelope(RedEnvelopeReqVO redEnvelopeReqVO) throws Exception;
 
     AjaxResult getRedEnvelopeRecord(RedEnvelopeReqVO redEnvelopeReqVO);
 

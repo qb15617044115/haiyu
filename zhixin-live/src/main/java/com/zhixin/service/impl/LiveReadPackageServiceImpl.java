@@ -46,8 +46,8 @@ public class LiveReadPackageServiceImpl implements LiveRedPackageService {
     private StringRedisTemplate redisTemplate;
 
     @Override
-    @Transactional
-    public AjaxResult sendRedEnvelope(RedEnvelopeReqVO redEnvelopeReqVO) {
+    @Transactional(rollbackFor = Exception.class)
+    public AjaxResult sendRedEnvelope(RedEnvelopeReqVO redEnvelopeReqVO) throws Exception {
         if(redEnvelopeReqVO.getNumber() == null || redEnvelopeReqVO.getNumber() == 0 || redEnvelopeReqVO.getUserId() == null){
             return AjaxResult.error("参数异常");
         }
@@ -84,13 +84,7 @@ public class LiveReadPackageServiceImpl implements LiveRedPackageService {
         zhixinLiveRedenvelope.setMoney(redEnvelopeReqVO.getMoney());
         zhixinLiveRedenvelope.setRandomAmount(resultMap.get("data").toString());
         zhixinLiveRedenvelope.setTotal(redEnvelopeReqVO.getNumber());
-        try {
-            zhixinLiveRedenvelope.setLiveStartTime(sdf.parse(liveMap.get("createTime").toString()));
-        }catch (Exception e){
-            e.printStackTrace();
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return AjaxResult.error("系统内部错误");
-        }
+        zhixinLiveRedenvelope.setLiveStartTime(sdf.parse(liveMap.get("createTime").toString()));
         zhixinLiveRedenvelope.setRemainingMoney(redEnvelopeReqVO.getMoney());
         liveRedPackageMapper.insertLiveRedEnvelope(zhixinLiveRedenvelope);
         //添加主播支出记录

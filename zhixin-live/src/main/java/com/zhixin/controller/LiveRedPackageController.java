@@ -18,7 +18,12 @@ public class LiveRedPackageController {
 
     @RequestMapping(value = "/sendRedEnvelope",method = RequestMethod.POST)
     public AjaxResult sendRedEnvelope(@RequestBody RedEnvelopeReqVO redEnvelopeReqVO){
-        return liveRedPackageService.sendRedEnvelope(redEnvelopeReqVO);
+        try {
+            return liveRedPackageService.sendRedEnvelope(redEnvelopeReqVO);
+        }catch (Exception e){
+            e.printStackTrace();
+            return AjaxResult.error("系统内部错误，错误消息:" + e.getMessage());
+        }
     }
 
     @RequestMapping(value = "/getRedEnvelopeRecord",method = RequestMethod.POST)
