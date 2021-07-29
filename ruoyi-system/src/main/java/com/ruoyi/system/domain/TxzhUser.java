@@ -106,6 +106,16 @@ public class TxzhUser extends BaseDomain implements Serializable {
 
     private String levelName;
 
+    private List<UserBankCard> userBankCards;
+
+    public List<UserBankCard> getUserBankCards() {
+        return userBankCards;
+    }
+
+    public void setUserBankCards(List<UserBankCard> userBankCards) {
+        this.userBankCards = userBankCards;
+    }
+
     public String getLevelName() {
         return levelName;
     }

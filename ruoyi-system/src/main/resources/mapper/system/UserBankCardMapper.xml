@@ -10,4 +10,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(#{item.id},#{item.bankCard},#{item.idCard},#{item.bankUserId},#{item.bankUserName},#{item.createBy},1)
 		</foreach>
 	</insert>
+
+	<resultMap id="resultMap" type="com.ruoyi.system.domain.UserBankCard">
+		<id column="id" property="id"/>
+		<result column="bank_card" property="bankCard"/>
+		<result column="bank_name" property="bankName"/>
+		<result column="bank_account_name" property="bankAccountName"/>
+		<result column="bank_card_name" property="bankName"/>
+		<result column="bank_code" property="bankCode"/>
+		<result column="bank_type" property="bankType"/>
+		<result column="bank_province" property="bankProvince"/>
+		<result column="bank_city" property="bankCity"/>
+		<result column="bank_log" property="bankLog"/>
+		<result column="id_card" property="idCard"/>
+		<result column="bank_user_id" property="bankUserId"/>
+		<result column="bank_user_name" property="bankUserName"/>
+		<result column="bank_state" property="bankState"/>
+		<result column="create_by" property="createBy"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+
+	<select id="listByUserId" resultMap="resultMap">
+		SELECT * FROM user_bank_card WHERE bank_user_id = #{id}
+    </select>
 </mapper>

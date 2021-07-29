@@ -1,8 +1,11 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.TreeSelect;
 import com.ruoyi.common.core.domain.entity.SysDept;
+import com.ruoyi.common.core.domain.entity.SysUser;
 
 /**
  * 部门管理 服务层
@@ -108,4 +111,5 @@ public interface ISysDeptService
     public int deleteDeptById(Long deptId);
 
 
+    AjaxResult getCurrentUserDeptTree(SysUser user);
 }

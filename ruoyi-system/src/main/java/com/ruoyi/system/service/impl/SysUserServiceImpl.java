@@ -13,6 +13,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.system.domain.SysWalletLog;
 import com.ruoyi.system.domain.vo.CloseLiveVO;
 import com.ruoyi.system.domain.vo.GetLiveVO;
+import com.ruoyi.system.domain.vo.LiveVO;
 import com.ruoyi.system.domain.vo.OpenLiveVO;
 import com.ruoyi.system.mapper.*;
 import org.slf4j.Logger;
@@ -63,6 +64,8 @@ public class SysUserServiceImpl implements ISysUserService
     private ISysConfigService configService;
     @Autowired
     private SysWalletLogMapper sysWalletLogMapper;
+    @Autowired
+    private SysDeptMapper sysDeptMapper;
 
     @Value("${live.authCode}")
     private String authCode;
@@ -537,6 +540,11 @@ public class SysUserServiceImpl implements ISysUserService
         jsonObject.put("hostname",openLiveVO.getHostName());
         jsonObject.put("expire_time",openLiveVO.getExpireTime());
         jsonObject.put("auth_code",sysUser.getAuthCode());
+        // 获取到当前机构的所有子机构
+        if(!openLiveVO.getDeptIds().isEmpty()){
+            String join = StringUtils.join(openLiveVO.getDeptIds(), ",");
+            jsonObject.put("org_id",join);
+        }
         jsonObject.put("uinfo_userid",sysUser.getUserId().toString());
         String body = HttpUtil.createPost(liveUrl + "/xlive/xaddlive").body(JSON.toJSONString(jsonObject)).execute().body();
         JSONObject result = JSON.parseObject(body);
@@ -608,8 +616,6 @@ public class SysUserServiceImpl implements ISysUserService
         }
         return AjaxResult.success(result);
     }
-    @Autowired
-    private SysDeptMapper sysDeptMapper;
 
     @Override
     public String getDeptCode(SysUser user) {

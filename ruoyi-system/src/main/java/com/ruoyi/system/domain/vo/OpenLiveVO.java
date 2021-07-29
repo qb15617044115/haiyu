@@ -4,7 +4,9 @@ package com.ruoyi.system.domain.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class OpenLiveVO {
     // 直播标题
@@ -20,6 +22,16 @@ public class OpenLiveVO {
     private String authCode;
     // 用户id
     private String userId;
+    // 机构id
+    private List<Long> deptIds = new ArrayList<>();
+
+    public List<Long> getDeptIds() {
+        return deptIds;
+    }
+
+    public void setDeptIds(List<Long> deptIds) {
+        this.deptIds = deptIds;
+    }
 
     public String getUserId() {
         return userId;

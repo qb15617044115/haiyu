@@ -164,4 +164,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectDeptCodeByDeptId" resultType="java.lang.String">
 		SELECT dept_code FROM sys_dept WHERE dept_id = #{deptId}
     </select>
+
+	<select id="getDeptIdByDeptCode" resultType="java.lang.Long">
+		SELECT dept_id FROM sys_dept WHERE dept_code = #{deptCode}
+	</select>
+
+	<select id="getCurrentUserDeptTree" resultMap="SysDeptResult">
+		SELECT * FROM sys_dept WHERE dept_id = #{deptId} OR ancestors LIKE CONCAT('%',#{deptId},'%')
+	</select>
 </mapper>

@@ -68,6 +68,10 @@ public class TxzhUserServiceImpl implements ITxzhUserService {
         }
         // 在 user_account 表中查询出用户信息
         List<TxzhUser> list = txzhUserMapper.BatchFindByUserId(deptIds,txzhUser);
+        // 查询出客户的银行卡
+        for (TxzhUser user : list) {
+            user.setUserBankCards(userBankCardMapper.listByUserId(user));
+        }
         // 查询出数量
         int count = txzhUserMapper.countFindByUserId(deptIds,txzhUser);
         map.put("list",list);
@@ -151,8 +155,14 @@ public class TxzhUserServiceImpl implements ITxzhUserService {
         // 生成 id
         String s = RandomUtil.randomNumbers(3);
         txzhUser.setId(Long.parseLong(new Date().getTime() + s));
-        Long deptId = user.getDept().getDeptId();
-        txzhUser.setDeptId(deptId.intValue());
+        if(StringUtils.isNotBlank(txzhUser.getDeptCode())){
+            Long deptId = sysDeptMapper.getDeptIdByDeptCode(txzhUser.getDeptCode());
+            txzhUser.setDeptId(deptId.intValue());
+        }else{
+            Long deptId = user.getDept().getDeptId();
+            txzhUser.setDeptId(deptId.intValue());
+        }
+
         // 进行添加操作
         txzhUserMapper.insertTxzhUser(txzhUser);
         // 添加银行卡
@@ -173,16 +183,18 @@ public class TxzhUserServiceImpl implements ITxzhUserService {
                 userBankCard.setCreateBy(txzhUser.getId());
                 userBankCard.setBankUserId(txzhUser.getId());
                 for (String bankCard : txzhUser.getUserBankCard().getBankCards()) {
-                    UserBankCard card = new UserBankCard();
-                    String s1 = new Date().getTime() + RandomUtil.randomNumbers(3);
-                    card.setId(Long.parseLong(s1));
-                    Thread.sleep(1);
-                    card.setBankCard(bankCard);
-                    card.setBankUserName(userBankCard.getBankUserName());
-                    card.setBankUserId(txzhUser.getId());
-                    card.setIdCard(userBankCard.getIdCard());
-                    card.setCreateBy(txzhUser.getId());
-                    list.add(card);
+                    if(StringUtils.isNotBlank(bankCard)){
+                        UserBankCard card = new UserBankCard();
+                        String s1 = new Date().getTime() + RandomUtil.randomNumbers(3);
+                        card.setId(Long.parseLong(s1));
+                        Thread.sleep(1);
+                        card.setBankCard(bankCard);
+                        card.setBankUserName(userBankCard.getBankUserName());
+                        card.setBankUserId(txzhUser.getId());
+                        card.setIdCard(userBankCard.getIdCard());
+                        card.setCreateBy(txzhUser.getId());
+                        list.add(card);
+                    }
                 }
                 userBankCardMapper.batchInsertBankCard(list);
             }

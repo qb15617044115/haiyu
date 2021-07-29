@@ -2,6 +2,11 @@ package com.ruoyi.web.controller.system;
 
 import java.util.Iterator;
 import java.util.List;
+
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.framework.web.service.TokenService;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,6 +40,8 @@ public class SysDeptController extends BaseController
 {
     @Autowired
     private ISysDeptService deptService;
+    @Autowired
+    private TokenService tokenService;
 
     /**
      * 获取部门列表
@@ -159,5 +166,11 @@ public class SysDeptController extends BaseController
             return AjaxResult.error("部门存在用户,不允许删除");
         }
         return toAjax(deptService.deleteDeptById(deptId));
+    }
+    @GetMapping(value = "/getCurrentUserDeptTree")
+    public AjaxResult getCurrentUserDeptTree(){
+        LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
+        SysUser user = loginUser.getUser();
+        return deptService.getCurrentUserDeptTree(user);
     }
 }

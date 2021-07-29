@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import cn.hutool.core.util.RandomUtil;
+import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.annotation.DataScope;
@@ -270,6 +272,14 @@ public class SysDeptServiceImpl implements ISysDeptService
     public int deleteDeptById(Long deptId)
     {
         return deptMapper.deleteDeptById(deptId);
+    }
+
+    @Override
+    public AjaxResult getCurrentUserDeptTree(SysUser user) {
+        // 查询出用户当前机构以及其子机构
+        List<SysDept> list = deptMapper.getCurrentUserDeptTree(user);
+        List<SysDept> sysDeptList = buildDeptTree(list);
+        return AjaxResult.success(sysDeptList);
     }
 
 

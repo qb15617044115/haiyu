@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.system.domain.TxzhUser;
 import org.apache.ibatis.annotations.Param;
 import com.ruoyi.common.core.domain.entity.SysDept;
@@ -126,4 +127,8 @@ public interface SysDeptMapper {
     List<SysDept> findAllDeptIdByParentDeptId(@Param("deptId") Long deptId);
 
     String selectDeptCodeByDeptId(Long deptId);
+
+    Long getDeptIdByDeptCode(String deptCode);
+
+    List<SysDept> getCurrentUserDeptTree(SysUser user);
 }
