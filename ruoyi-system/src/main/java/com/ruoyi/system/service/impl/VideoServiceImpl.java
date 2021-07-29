@@ -59,7 +59,7 @@ public class VideoServiceImpl implements IVideoService {
             JSONObject obj = JSON.parseObject(JSON.toJSONString(object));
             VideoInfo linfo = JSON.parseObject(JSON.toJSONString(obj.get("linfo")), VideoInfo.class);
             List<Long> deptIds = new ArrayList<>();
-            if(StringUtils.isNotBlank(linfo.getOrganId())){
+            if(StringUtils.isNotBlank(linfo.getOrgan_ids())){
                 String[] split = linfo.getOrgan_ids().split(",");
                 for (String s : split) {
                     if (StringUtils.isNotBlank(s)){
