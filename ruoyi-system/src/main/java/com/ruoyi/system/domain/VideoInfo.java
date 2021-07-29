@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class VideoInfo {
@@ -30,4 +31,7 @@ public class VideoInfo {
     private String backgroundUrl;
     private String videoType;
     private String createTime;
+    // 机构id 返回
+    private String organ_ids;
+    private List<Long> deptIds;
 }

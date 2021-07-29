@@ -24,4 +24,5 @@ public class VideoVO extends BaseDomain{
     private String expireTime;
     // 机构id
     private List<Long> deptIds;
+
 }

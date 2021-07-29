@@ -4,6 +4,7 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.util.StringUtil;
 import com.ruoyi.common.constant.LiveConstant;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysUser;
@@ -57,6 +58,16 @@ public class VideoServiceImpl implements IVideoService {
         for (Object object : objects) {
             JSONObject obj = JSON.parseObject(JSON.toJSONString(object));
             VideoInfo linfo = JSON.parseObject(JSON.toJSONString(obj.get("linfo")), VideoInfo.class);
+            List<Long> deptIds = new ArrayList<>();
+            if(StringUtils.isNotBlank(linfo.getOrganId())){
+                String[] split = linfo.getOrgan_ids().split(",");
+                for (String s : split) {
+                    if (StringUtils.isNotBlank(s)){
+                        deptIds.add(Long.parseLong(s));
+                    }
+                }
+            }
+            linfo.setDeptIds(deptIds);
             SysUser sysUser = sysUserMapper.selectUserById(Long.parseLong(linfo.getUserId()));
             if(sysUser != null){
                 linfo.setUserNickname(sysUser.getNickName());
@@ -150,6 +161,9 @@ public class VideoServiceImpl implements IVideoService {
         jsonObject.put("auth_code",authCode);
         jsonObject.put("video_id",videoVO.getVideoId().toString());
         jsonObject.put("user_id",videoVO.getUserId());
+        if(videoVO.getDeptIds().isEmpty()){
+            return AjaxResult.error("请选择允许观看直播的机构");
+        }
         if(StringUtils.isNotBlank(videoVO.getVideoName())){
             jsonObject.put("video_name",videoVO.getVideoName());
         }
@@ -172,6 +186,10 @@ public class VideoServiceImpl implements IVideoService {
         }
         if (videoVO.getWatchNum() != null){
             jsonObject.put("watch_num",videoVO.getWatchNum().toString());
+        }
+        if(!videoVO.getDeptIds().isEmpty()){
+            String join = StringUtils.join(videoVO.getDeptIds(), ",");
+            jsonObject.put("org_ids",join);
         }
         String body = HttpUtil.createPost(liveUrl + "/api/auth/video/editlivevideo").body(JSON.toJSONString(jsonObject)).execute().body();
         JSONObject result = JSON.parseObject(body);
