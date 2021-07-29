@@ -177,26 +177,6 @@ xss:
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
 
-# 阿里云存储对象
-oss:
-  endpoint: http://oss-cn-beijing.aliyuncs.com
-  keyid: LTAI4FnfSUTDjpoyHXtwkBsU
-  keysecret: OI7Ok6CNVhGpgJhjonSnZyF5NajMpM
-  bucketname: ruoyi-head-img
-  filehost: ruoyi_head
-  imgurl: https://ruoyi-head-img.oss-cn-beijing.aliyuncs.com/
-
-fdfs :
-  resHost: http://fastdfs.zhixinoz.com/
-  storagePort:
-  connect-timeout : 600
-  so-timeout : 1500
-  trackerList : 18.166.95.30:22122
-  thumbImage :
-    height : 150
-    width : 150
-  pool :
-    max-total : 200
 
 live :
   url : "http://16.162.138.78:8086"
