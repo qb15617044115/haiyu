@@ -57,6 +57,9 @@ public class SysDept extends BaseEntity
     /** 机构邀请码 */
     private String deptCode;
 
+    /** 子部门 */
+    private List<SysDept> children = new ArrayList<SysDept>();
+
     public String getCustomers() {
         return customers;
     }
@@ -72,9 +75,6 @@ public class SysDept extends BaseEntity
     public void setDeptCode(String deptCode) {
         this.deptCode = deptCode;
     }
-
-    /** 子部门 */
-    private List<SysDept> children = new ArrayList<SysDept>();
 
     public Long getDeptId()
     {

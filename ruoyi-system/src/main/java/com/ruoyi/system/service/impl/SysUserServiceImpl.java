@@ -533,6 +533,9 @@ public class SysUserServiceImpl implements ISysUserService
         if (StringUtils.isBlank(sysUser.getAuthCode())){
             return AjaxResult.error("当前未拥有直播权限");
         }
+        if(openLiveVO.getDeptIds().isEmpty()){
+            return AjaxResult.error("请选择允许观看直播的机构");
+        }
         // 如果拥有状态码,将数据封装起来发送一条 http 请求到直播模块开启直播
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("room_name",openLiveVO.getRoomName());
@@ -541,10 +544,9 @@ public class SysUserServiceImpl implements ISysUserService
         jsonObject.put("expire_time",openLiveVO.getExpireTime());
         jsonObject.put("auth_code",sysUser.getAuthCode());
         // 获取到当前机构的所有子机构
-        if(!openLiveVO.getDeptIds().isEmpty()){
-            String join = StringUtils.join(openLiveVO.getDeptIds(), ",");
-            jsonObject.put("org_id",join);
-        }
+        String join = StringUtils.join(openLiveVO.getDeptIds(), ",");
+        jsonObject.put("org_ids",join);
+        jsonObject.put("org_id",user.getDept().getDeptId().toString());
         jsonObject.put("uinfo_userid",sysUser.getUserId().toString());
         String body = HttpUtil.createPost(liveUrl + "/xlive/xaddlive").body(JSON.toJSONString(jsonObject)).execute().body();
         JSONObject result = JSON.parseObject(body);

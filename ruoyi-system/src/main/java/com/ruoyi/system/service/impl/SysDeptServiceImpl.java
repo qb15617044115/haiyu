@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import cn.hutool.core.util.RandomUtil;
+import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.SysDeptVO;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -279,7 +281,9 @@ public class SysDeptServiceImpl implements ISysDeptService
         // 查询出用户当前机构以及其子机构
         List<SysDept> list = deptMapper.getCurrentUserDeptTree(user);
         List<SysDept> sysDeptList = buildDeptTree(list);
-        return AjaxResult.success(sysDeptList);
+        String s = JSON.toJSONString(sysDeptList);
+        List<SysDeptVO> sysDeptVOS = JSON.parseArray(s, SysDeptVO.class);
+        return AjaxResult.success(sysDeptVOS);
     }
 
 

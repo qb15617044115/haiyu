@@ -2,6 +2,8 @@ package com.ruoyi.system.domain.vo;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class VideoVO extends BaseDomain{
     // 视频 id
@@ -20,4 +22,6 @@ public class VideoVO extends BaseDomain{
     private Integer userId;
     // 时间
     private String expireTime;
+    // 机构id
+    private List<Long> deptIds;
 }

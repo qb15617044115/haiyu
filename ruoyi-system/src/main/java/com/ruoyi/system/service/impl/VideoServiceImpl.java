@@ -87,6 +87,9 @@ public class VideoServiceImpl implements IVideoService {
         if(!LiveConstant.VIDEO_TYPE.equals(videoVO.getVideoType()) && !LiveConstant.LIVEBACK_TYPE.equals(videoVO.getVideoType())){
             return AjaxResult.error("参数错误");
         }
+        if(videoVO.getDeptIds().isEmpty()){
+            return AjaxResult.error("请选择允许观看直播的机构");
+        }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("auth_code",authCode);
         jsonObject.put("video_name",videoVO.getVideoName());
@@ -100,6 +103,8 @@ public class VideoServiceImpl implements IVideoService {
         }
         jsonObject.put("user_id",user.getUserId().toString());
         jsonObject.put("expire_time",videoVO.getExpireTime());
+        String join = StringUtils.join(videoVO.getDeptIds(), ",");
+        jsonObject.put("org_ids",join);
         if(videoVO.getWatchNum() != null){
             jsonObject.put("watch_num",videoVO.getWatchNum().toString());
         }
